@@ -1,70 +1,63 @@
-# Getting Started with Create React App
+# React based employee directory
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Check out the project [here](https://nickgraffis.github.io/reat-directory).
 
-## Available Scripts
+## What to expect
+This project showcases a component called Table, that has loosely coupled components (Rows and Cols).
 
-In the project directory, you can run:
+### Row
+A row is simply
+```
+<div className="flex w-full border border-white">{props.children}</div>;
+```
 
-### `yarn start`
+### Col
+A col is simply
+```
+<p onClick={props.onclick} className={`${props.sortable ? 'cursor-pointer' : ''} text-${props.fontSize || 'sm'} text-blue-500 border-r border-l w-${props.size}/12 flex-grow border-white p-1 flex items-center justify-center`}>
+  {props.info || props.children}
+</p>
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Img
+An img is simply a special col that creates a picture
+```
+<div className={`p-4 flex items-center justify-center border-r border-l border-white w-${props.size}/12`}>
+  <img className="h-12 w-12 rounded-full object-cover" src={props.img} />
+</div>
+```
+This allows the Table component to create many dynamic rows with dynamic columns.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```
+{this.state.results.length > 0 ?
+  this.state.results.map((result) => {
+    return <Row>
+      <Img size="1" img={result.picture.thumbnail} />
+      <Col size="3" info={`${result.name.first} ${result.name.last}`} />
+      <Col size="4" info={result.email} />
+      <Col size="2" info={result.phone} />
+      <Col size="2" info={result.gender} />
+    </Row>
+  })
+  : <p className="text-red-400">nothing...</p>
+}
+```
 
-### `yarn test`
+### Special Features
+The Table component also creates a special header row that has access to some functions defined within the Table component to allow for sorting and filtering.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+<Row>
+  <Col fontSize="md" size="1" info="Avatar"/>
+  <Col fontSize="md" size="3" sortable="true" onclick={() => this.handleOrderBy('name')}>
+    {`Name ${this.state.orderDirection['name'] ? '↑' : '↓'}`}
+  </Col>
+  <Col fontSize="md" size="4" sortable="true" onclick={() =>  this.handleOrderBy('email')}>
+    {`Email ${this.state.orderDirection['email'] ? '↑' : '↓'}`}
+  </Col>
+  <Col fontSize="md" size="2" info="Phone"/>
+  <Col fontSize="md" size="2" sortable="true" info={`Gender ${this.state.filter ? `${this.state.filter}` : '--'}`} onclick={this.handleFilterBy}/>
+</Row>
+```
 
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+You can filter by Gender. And sort employees by last name or email. 
