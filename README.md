@@ -1,6 +1,6 @@
 # React based employee directory
 
- Check out the project [here](https://nickgraffis.github.io/reat-directory).
+ Check out the project [here](https://nickgraffis.github.io/react-directory).
 
  ## What to expect
  This project showcases a component called Table, that has loosely coupled components (Rows and Cols).
