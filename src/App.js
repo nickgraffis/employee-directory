@@ -11,7 +11,7 @@ class App extends React.Component {
 
 render() {
     return (
-      <div className="App">
+      <div className="App flex flex-col items-center">
         <header className="App-header">
             <div className="flex items-center">
               <img src={logo} className="App-logo" alt="logo" />
@@ -19,7 +19,7 @@ render() {
             </div>
             <p className="text-2xl font-mono">❤️ Nick Graffis</p>
         </header>
-        <section className="App-body">
+        <section className="App-body w-4/6  py-12">
           <Table />
         </section>
       </div>
